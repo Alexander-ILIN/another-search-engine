@@ -8,7 +8,47 @@
 
 ###  Возможности приложения
 
-###  Конфигурационный файл
+###  Конфигурационный файл (application.yaml)
+Конфигурационный файл содержит:  
+
+-  данные доступа к локальной базе данных MySQL: хост, логин, пароль, имя базы;
+-  перечень сайтов, которые необходимо индексировать;
+-  имя User-Agent, который необходимо подставлять при запросах страниц сайтов;
+-  путь к веб-интерфейсу.
+
+Пример заполненного файла application.yaml:  
+
+    variables:
+    
+      # Префикс таблиц
+      tablesPrefix: ase_
+      
+      # Перечень сайтов
+      sites:
+        - url: https://dombulgakova.ru/
+        name: Дом Булгакова
+        - url: https://www.svetlovka.ru/
+        name: Библиотека имени М. А. Светлова
+        
+      #Свойства User Agent
+      userAgent: another search engine bot
+      referrer: http://www.google.com
+      
+      # Размер буферов для сохранения в БД
+      pageBufferSize: 100
+      lemmaBufferSize: 1000
+      indexBufferSize: 5000
+    
+    #Путь к веб-интерфейсу
+    server.servlet.context-path: /admin
+    
+    # Свойства подключения к БД
+    spring.datasource.url: jdbc:mysql://127.0.0.1:3306/search_engine_db
+    spring.datasource.username: bestuser
+    spring.datasource.password: bestuser
+    
+    #Режим работы БД (create - для создания таблиц в БД, none - для обычной работы приложения)
+    spring.jpa.hibernate.ddl-auto: none
 
 ###  API
 
