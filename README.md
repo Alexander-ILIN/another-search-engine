@@ -10,8 +10,17 @@
 К приложению подключена frontend-составляющая, которая представляет собой веб-страницу.
 Данная веб-страница была разработана отдельно, оригинал её кода находится в репозитории по [ссылке](https://github.com/skillbox-java/search_engine_frontend). Вариант веб-страницы, доработанный под данный проект находится в репозитории проекта в папке `/src/main/resources/static/`, [ссылка](https://github.com/Alexander-ILIN/another-search-engine/tree/master/src/main/resources/static).  
 
-###  Работа приложения
+###  Работа приложения  
 
+-  вкладка `DASHBOARD`
+![DASHBOARD](/images/Dashboard.png)
+
+-  вкладка `MANAGEMENT`
+![MANAGEMENT](/images/Management.png)
+
+
+-  Вкладка `SEARCH`
+![SEARCH](/images/Search.png)
 
 
 ###  Конфигурационный файл (application.yaml)
