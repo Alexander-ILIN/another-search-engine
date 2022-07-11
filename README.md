@@ -1,18 +1,30 @@
 #  AnotherSearchEngine (ещё один поисковый движок)
-##  Описание
 
 Реализация поискового движка, который осуществляет:  
 -  обход всех страниц заданных сайтов;
 -  индексацию найденных страниц;
--  выдачу наиболее релевантных страниц заданных сайтов по поисковому запросу.
+-  выдачу наиболее релевантных страниц заданных сайтов по поисковому запросу на русском и английском языках.
 
----
+##  Стек используемых технологий  
+-  разработка: Java 13.0.2, Spring Boot 2.3.9;  
+-  сборка: Maven 3.6.3;  
+-  база данных: MySQL 8.0.22;  
+-  API: REST;  
+-  система контроля версий: Git 2.27.0.
+
+##  Использование сторонних проектов  
 
 ###  Frontend  
 К приложению подключена frontend-составляющая, которая представляет собой веб-страницу.
-Данная веб-страница была разработана отдельно, оригинал её кода находится в репозитории по [ссылке](https://github.com/skillbox-java/search_engine_frontend). Вариант веб-страницы, доработанный под данный проект находится в репозитории проекта в папке `/src/main/resources/static/`, [ссылка](https://github.com/Alexander-ILIN/another-search-engine/tree/master/src/main/resources/static).  
+Данная веб-страница была разработана отдельно, оригинал её кода находится в репозитории по [ссылке](https://github.com/skillbox-java/search_engine_frontend). Вариант веб-страницы, доработанной под данный проект находится в репозитории проекта в папке `/src/main/resources/static/`, [ссылка](https://github.com/Alexander-ILIN/another-search-engine/tree/master/src/main/resources/static).  
 
----
+---  
+
+###  Лемматизатор  
+Лемматизатор — это специальная библиотека, которая позволяет получать леммы слов - их исходные формы (для существительных, например, это слово в именительном падеже и единственном числе).  
+К проекту подключен лемматизатор для русского и английского языков, [ссылка](https://github.com/AKuznetsov/russianmorphology).  
+
+##  Описание  
 
 ###  Работа приложения  
 
@@ -58,59 +70,6 @@
 
 ---
 
-
-###  Конфигурационный файл (application.yaml)
-Конфигурационный файл содержит:  
-
--  пользовательские переменные - `variables`:
-
-   -  префикс имён таблиц - `tablesPrefix`;  
-   -  перечень сайтов, которые необходимо индексировать - `sites`; для каждого сайта задаются адрес - `url` и имя - `name`;
-   -  имя user-agent, который необходимо подставлять при запросах страниц сайтов - `userAgent`;
-   -  referrer, который необходимо подставлять при запросах страниц сайтов - `referrer`;
-   -  размер буфера, использующегося при сохранении страниц - `pageBufferSize`;
-   -  размер буфера, использующегося при сохранении лемм - `lemmaBufferSize`;
-   -  размер буфера, использующегося при сохранении поисковых индексов - `indexBufferSize`;
-   
--  путь к веб-интерфейсу - `server.servlet.context-path`;
--  свойства подключения к базе данных: хост, имя базы - `spring.datasource.url`;
--  свойства подключения к базе данных: логин - `spring.datasource.username`;
--  свойства подключения к базе данных: пароль - `spring.datasource.password`;
--  режим управления структурой базы данных - `spring.jpa.hibernate.ddl-auto`.
-
-Пример заполненного файла application.yaml:  
-
-    variables:
-    
-      # Префикс имён таблиц
-      tablesPrefix: ase_
-      
-      # Перечень сайтов
-      sites:
-        - url: https://dombulgakova.ru/
-        name: Дом Булгакова
-        - url: https://www.svetlovka.ru/
-        name: Библиотека имени М. А. Светлова
-        
-      #Свойства User Agent
-      userAgent: another search engine bot
-      referrer: http://www.google.com
-      
-      # Размер буферов для сохранения в БД
-      pageBufferSize: 100
-      lemmaBufferSize: 1000
-      indexBufferSize: 5000
-    
-    #Путь к веб-интерфейсу
-    server.servlet.context-path: /admin
-    
-    # Свойства подключения к БД
-    spring.datasource.url: jdbc:mysql://127.0.0.1:3306/search_engine_db
-    spring.datasource.username: bestuser
-    spring.datasource.password: bestuser
-    
-    #Режим работы БД (create - для создания таблиц в БД, none - для обычной работы приложения)
-    spring.jpa.hibernate.ddl-auto: none
 
 ###  API
 
@@ -204,8 +163,75 @@
        {'result': false,
        'error': "Задан пустой поисковый запрос"}
 
+---  
 
 
-##  Стек используемых технологий
+###  Конфигурационный файл (application.yaml)
+Конфигурационный файл содержит:  
+
+-  пользовательские переменные - `variables`:
+
+   -  префикс имён таблиц - `tablesPrefix`;  
+   -  перечень сайтов, которые необходимо индексировать - `sites`; для каждого сайта задаются адрес - `url` и имя - `name`;
+   -  имя user-agent, который необходимо подставлять при запросах страниц сайтов - `userAgent`;
+   -  referrer, который необходимо подставлять при запросах страниц сайтов - `referrer`;
+   -  размер буфера, использующегося при сохранении страниц - `pageBufferSize`;
+   -  размер буфера, использующегося при сохранении лемм - `lemmaBufferSize`;
+   -  размер буфера, использующегося при сохранении поисковых индексов - `indexBufferSize`;
+   
+-  путь к веб-интерфейсу - `server.servlet.context-path`;
+-  свойства подключения к базе данных: хост, имя базы - `spring.datasource.url`;
+-  свойства подключения к базе данных: логин - `spring.datasource.username`;
+-  свойства подключения к базе данных: пароль - `spring.datasource.password`;
+-  режим управления структурой базы данных - `spring.jpa.hibernate.ddl-auto`.
+
+Пример заполненного файла application.yaml:  
+
+    variables:
+    
+      # Префикс имён таблиц
+      tablesPrefix: ase_
+      
+      # Перечень сайтов
+      sites:
+        - url: https://dombulgakova.ru/
+        name: Дом Булгакова
+        - url: https://www.svetlovka.ru/
+        name: Библиотека имени М. А. Светлова
+        
+      #Свойства User Agent
+      userAgent: another search engine bot
+      referrer: http://www.google.com
+      
+      # Размер буферов для сохранения в БД
+      pageBufferSize: 100
+      lemmaBufferSize: 1000
+      indexBufferSize: 5000
+    
+    #Путь к веб-интерфейсу
+    server.servlet.context-path: /admin
+    
+    # Свойства подключения к БД
+    spring.datasource.url: jdbc:mysql://127.0.0.1:3306/search_engine_db
+    spring.datasource.username: bestuser
+    spring.datasource.password: bestuser
+    
+    #Режим работы БД (create - для создания таблиц в БД, none - для обычной работы приложения)
+    spring.jpa.hibernate.ddl-auto: none
+    
+---  
+
+###  Таблицы в базе данных
+
+-  **field** -   
+-  **index** -   
+-  **lemma** -   
+-  **page** - информация о страницах сайтов;  
+   -  id INT NOT NULL AUTO_INCREMENT;  
+   -  path TEXT NOT NULL - адрес страницы от корня сайта (должен начинаться со слеша, например: /news/372189/);
+   -  code INT NOT NULL - код ответа, полученный при запросе страницы (например, 200, 404, 500 или другие);
+   -  content MEDIUMTEXT NOT NULL - контент страницы (HTML-код).
+-  **site** -   
+
 
 ##  Запуск проекта локально
